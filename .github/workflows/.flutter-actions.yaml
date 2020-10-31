@@ -20,7 +20,7 @@ jobs:
           TOTAL_MAX: ${{ steps.analysis.outputs.total_max }}
         run: |
           PERCENTAGE=$(( $TOTAL * 100 / $TOTAL_MAX ))
-          if (( $PERCENTAGE < 80 ))
+          if (( $PERCENTAGE < 70 ))
           then
           echo Score too low! (percentage: $PERCENTAGE%)
             exit 1
