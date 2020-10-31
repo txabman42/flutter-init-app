@@ -123,6 +123,13 @@ workflows:
         - $HOME/Library/Caches/CocoaPods
         - $HOME/.gradle/caches
         - $FLUTTER_ROOT/.pub-cache
+    triggering:
+      events:
+        - pull_request
+      branch_patterns:
+        - pattern: '*'
+          include: true
+          source: true
     scripts:
       - |
         # set up debug keystore
