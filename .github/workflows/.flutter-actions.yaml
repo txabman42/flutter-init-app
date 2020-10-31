@@ -22,7 +22,7 @@ jobs:
           PERCENTAGE=$(( $TOTAL * 100 / $TOTAL_MAX ))
           if (( $PERCENTAGE < 70 ))
           then
-          echo Score too low! (percentage: $PERCENTAGE)
+            echo -e "Score too low! (percentage: $PERCENTAGE)"
             exit 1
           fi
   test:
