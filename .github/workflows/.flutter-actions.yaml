@@ -1,7 +1,7 @@
 name: Flutter github actions for pull requests
 
 on:
-  pull-request:
+  pull-requests:
     branches:
       - master
       - develop
