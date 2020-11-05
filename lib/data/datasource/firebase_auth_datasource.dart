@@ -27,7 +27,6 @@ abstract class IFirebaseAuthDatasource {
   Future<void> signOut();
 }
 
-@prod
 @lazySingleton
 @RegisterAs(IFirebaseAuthDatasource)
 class FirebaseAuthDatasource implements IFirebaseAuthDatasource {

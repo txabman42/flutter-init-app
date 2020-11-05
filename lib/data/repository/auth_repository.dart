@@ -9,7 +9,6 @@ import 'package:trickster/data/util/user_dto_mapper.dart';
 import 'package:trickster/domain/entity/user.dart';
 import 'package:trickster/domain/repository/i_auth_repository.dart';
 
-@prod
 @lazySingleton
 @RegisterAs(IAuthRepository)
 class AuthRepository implements IAuthRepository {

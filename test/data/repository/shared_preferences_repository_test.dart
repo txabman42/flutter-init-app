@@ -8,15 +8,15 @@ import 'package:trickster/domain/constants/preferences.dart';
 import 'package:trickster/domain/entity/user_preferences.dart';
 
 class MockSharedPreferencesDatasource extends Mock
-    implements SharedPreferencesDatasource {}
+    implements ISharedPreferencesDatasource {}
 
 void main() {
   MockSharedPreferencesDatasource mockSharedPreferencesDatasource;
   SharedPreferencesRepository sharedPreferencesRepository;
 
-  const String key = Preferences.USER_PREFERENCES;
-  const String userPrefsJsonStr = '{"isLogged": true, "isDark": false}';
-  const UserPreferences userPreferences =
+  const String userKey = Preferences.USER_PREFERENCES;
+  const String userPrefsJsonStr = '{"isLogged":true,"isDark":false}';
+  const UserPreferences tUserPreferences =
       UserPreferences(isLogged: true, isDark: false);
 
   setUp(() async {
@@ -29,21 +29,29 @@ void main() {
     test(
         'should return userPreference entity when key exists in sharedPreferences',
         () {
-      when(mockSharedPreferencesDatasource.getString(key: key))
+      when(mockSharedPreferencesDatasource.getString(key: userKey))
           .thenReturn(right(userPrefsJsonStr));
       final result = sharedPreferencesRepository.getUserPreferences();
-      expect(result, right(userPreferences));
-      verify(mockSharedPreferencesDatasource.getString(key: key));
+      expect(result, right(tUserPreferences));
+      verify(mockSharedPreferencesDatasource.getString(key: userKey));
     });
 
     test('should return sharedPreferencesException when datasource throws exception', () {
-      when(mockSharedPreferencesDatasource.getString(key: key))
+      when(mockSharedPreferencesDatasource.getString(key: userKey))
           .thenReturn(left(const SharedPreferencesException.notFound()));
       final result = sharedPreferencesRepository.getUserPreferences();
       expect(result, left(const SharedPreferencesException.notFound()));
-      verify(mockSharedPreferencesDatasource.getString(key: key));
+      verify(mockSharedPreferencesDatasource.getString(key: userKey));
     });
   });
 
-  group('setUserPreferences', () {});
+  group('setUserPreferences', () {
+    test('should set userPreferences when they are valid', () async {
+      when(mockSharedPreferencesDatasource.setString(key: userKey, value: userPrefsJsonStr))
+      .thenAnswer((_) async => true);
+      final result = await sharedPreferencesRepository.setUserPreferences(tUserPreferences);
+      expect(result, isTrue);
+      verify(mockSharedPreferencesDatasource.setString(key: userKey, value: userPrefsJsonStr));
+    });
+  });
 }

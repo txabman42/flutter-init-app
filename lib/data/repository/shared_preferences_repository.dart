@@ -10,7 +10,6 @@ import 'package:trickster/domain/constants/preferences.dart';
 import 'package:trickster/domain/entity/user_preferences.dart';
 import 'package:trickster/domain/repository/i_shared_preferences_repository.dart';
 
-@prod
 @lazySingleton
 @RegisterAs(ISharedPreferencesRepository)
 class SharedPreferencesRepository implements ISharedPreferencesRepository {
@@ -35,7 +34,7 @@ class SharedPreferencesRepository implements ISharedPreferencesRepository {
   Future<bool> setUserPreferences(UserPreferences userPreferences) async {
     return _sharedPreferencesDatasource.setString(
         key: Preferences.USER_PREFERENCES,
-        value: json
-            .encode(UserPreferencesDto.fromEntity(userPreferences).toJson()));
+        value: jsonEncode(
+            UserPreferencesDto.fromEntity(userPreferences).toJson()));
   }
 }

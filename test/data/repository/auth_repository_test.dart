@@ -13,7 +13,7 @@ import 'package:trickster/data/repository/auth_repository.dart';
 import 'package:trickster/domain/entity/user.dart';
 
 class MockFirebaseAuthDatasource extends Mock
-    implements FirebaseAuthDatasource {}
+    implements IFirebaseAuthDatasource {}
 
 void main() {
   MockFirebaseAuthDatasource mockFirebaseAuthDatasource;

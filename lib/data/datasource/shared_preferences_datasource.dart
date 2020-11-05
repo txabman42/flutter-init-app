@@ -32,7 +32,6 @@ abstract class ISharedPreferencesDatasource {
   bool containsKey({@required String key});
 }
 
-@prod
 @lazySingleton
 @RegisterAs(ISharedPreferencesDatasource)
 class SharedPreferencesDatasource implements ISharedPreferencesDatasource {
