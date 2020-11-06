@@ -37,11 +37,17 @@ void main() {
       photoUrl: "random_url");
 
   group('getSignedInUSer', () {
-    test('get user when is not signed in', () {
+    test('should return user when user is signedIn', () {
       when(mockFirebaseAuth.currentUser)
           .thenReturn(MockFirebaseUserWithDisplayName());
       final result = firebaseAuthDatasource.getSignedInUser();
-      expect(result, tUserDto);
+      expect(result, right(tUserDto));
+    });
+
+    test('should return notFoundException when user is not signedIn', () {
+      when(mockFirebaseAuth.currentUser).thenReturn(null);
+      final result = firebaseAuthDatasource.getSignedInUser();
+      expect(result, left(const AuthException.userNotFound()));
     });
   });
 
@@ -71,7 +77,8 @@ void main() {
           emailAddress: emailAddressStr, password: passwordStr);
       expect(result.isLeft(), isTrue);
       expect(result, left(const AuthException.emailAlreadyInUse()));
-      verify(mockFirebaseAuth.createUserWithEmailAndPassword(email: emailAddressStr, password: passwordStr));
+      verify(mockFirebaseAuth.createUserWithEmailAndPassword(
+          email: emailAddressStr, password: passwordStr));
     });
 
     test(
@@ -85,7 +92,8 @@ void main() {
           emailAddress: emailAddressStr, password: passwordStr);
       expect(result.isLeft(), isTrue);
       expect(result, left(const AuthException.serverError()));
-      verify(mockFirebaseAuth.createUserWithEmailAndPassword(email: emailAddressStr, password: passwordStr));
+      verify(mockFirebaseAuth.createUserWithEmailAndPassword(
+          email: emailAddressStr, password: passwordStr));
     });
   });
 
@@ -100,7 +108,8 @@ void main() {
       final result = await firebaseAuthDatasource.signInWithEmailAndPassword(
           emailAddress: emailAddressStr, password: passwordStr);
       expect(result, right(tUserDto));
-      verify(mockFirebaseAuth.signInWithEmailAndPassword(email: emailAddressStr, password: passwordStr));
+      verify(mockFirebaseAuth.signInWithEmailAndPassword(
+          email: emailAddressStr, password: passwordStr));
     });
 
     test(
@@ -118,7 +127,8 @@ void main() {
         expect(result.isLeft(), isTrue);
         expect(result,
             left(const AuthException.invalidEmailAndPasswordCombination()));
-        verify(mockFirebaseAuth.signInWithEmailAndPassword(email: emailAddressStr, password: passwordStr));
+        verify(mockFirebaseAuth.signInWithEmailAndPassword(
+            email: emailAddressStr, password: passwordStr));
       }
     });
 
@@ -133,7 +143,8 @@ void main() {
           emailAddress: emailAddressStr, password: passwordStr);
       expect(result.isLeft(), isTrue);
       expect(result, left(const AuthException.serverError()));
-      verify(mockFirebaseAuth.signInWithEmailAndPassword(email: emailAddressStr, password: passwordStr));
+      verify(mockFirebaseAuth.signInWithEmailAndPassword(
+          email: emailAddressStr, password: passwordStr));
     });
   });
 
@@ -175,7 +186,8 @@ void main() {
 
   group('signOut', () {
     test('should wait for google signOut and firebase signOut', () async {
-      when(mockGoogleSignIn.signOut()).thenAnswer((_) async => MockGoogleSignInAccount());
+      when(mockGoogleSignIn.signOut())
+          .thenAnswer((_) async => MockGoogleSignInAccount());
       when(mockFirebaseAuth.signOut()).thenAnswer((_) async => null);
       await firebaseAuthDatasource.signOut();
       verify(mockGoogleSignIn.signOut());

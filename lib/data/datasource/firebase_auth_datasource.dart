@@ -10,7 +10,7 @@ import 'package:trickster/data/model/user_dto.dart';
 import 'package:trickster/data/util/firebase_user_dto_mapper.dart';
 
 abstract class IFirebaseAuthDatasource {
-  UserDto getSignedInUser();
+  Either<AuthException, UserDto> getSignedInUser();
 
   Future<Either<AuthException, UserDto>> registerWithEmailAndPassword({
     @required String emailAddress,
@@ -24,7 +24,7 @@ abstract class IFirebaseAuthDatasource {
 
   Future<Either<AuthException, UserDto>> signInWithGoogle();
 
-  Future<void> signOut();
+  Future<Either<AuthException, void>> signOut();
 }
 
 @lazySingleton
@@ -39,8 +39,13 @@ class FirebaseAuthDatasource implements IFirebaseAuthDatasource {
   );
 
   @override
-  UserDto getSignedInUser() =>
-      FirebaseUserDtoMapper().toDto(_firebaseAuth.currentUser);
+  Either<AuthException, UserDto> getSignedInUser() {
+    final User user = _firebaseAuth.currentUser;
+    if (user == null) {
+      return left(const AuthException.userNotFound());
+    }
+    return right(FirebaseUserDtoMapper().toDto(user));
+  }
 
   @override
   Future<Either<AuthException, UserDto>> registerWithEmailAndPassword(
@@ -102,10 +107,15 @@ class FirebaseAuthDatasource implements IFirebaseAuthDatasource {
   }
 
   @override
-  Future<void> signOut() {
-    return Future.wait([
-      _googleSignIn.signOut(),
-      _firebaseAuth.signOut(),
-    ]);
+  Future<Either<AuthException, void>> signOut() async {
+    try {
+      // ignore: void_checks
+      return right(Future.wait([
+        _googleSignIn.signOut(),
+        _firebaseAuth.signOut(),
+      ]));
+    } catch (e) {
+      return left(const AuthException.serverError());
+    }
   }
 }

@@ -4,7 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:trickster/core/error/shared_preferences_exception.dart';
 import 'package:trickster/data/datasource/shared_preferences_datasource.dart';
 import 'package:trickster/data/repository/shared_preferences_repository.dart';
-import 'package:trickster/domain/constants/preferences.dart';
+import 'package:trickster/domain/constant/preferences.dart';
 import 'package:trickster/domain/entity/user_preferences.dart';
 
 class MockSharedPreferencesDatasource extends Mock

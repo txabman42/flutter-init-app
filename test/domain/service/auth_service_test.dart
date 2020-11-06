@@ -32,10 +32,17 @@ void main() {
       photoUrl: "random_url");
 
   group('getSignedInUser', () {
-    test('should return directly the response from authRepository', () {
-      when(mockAuthRepository.getSignedInUser()).thenReturn(optionOf(tUser));
+    test('should return directly the response from authRepository when correct response', () {
+      when(mockAuthRepository.getSignedInUser()).thenReturn(right(tUser));
       final result = authService.getSignedInUser();
-      expect(result, optionOf(tUser));
+      expect(result, right(tUser));
+      verify(mockAuthRepository.getSignedInUser());
+    });
+
+    test('should return directly the response from authRepository when exception', () {
+      when(mockAuthRepository.getSignedInUser()).thenReturn(left(const AuthException.userNotFound()));
+      final result = authService.getSignedInUser();
+      expect(result, left(const AuthException.userNotFound()));
       verify(mockAuthRepository.getSignedInUser());
     });
   });

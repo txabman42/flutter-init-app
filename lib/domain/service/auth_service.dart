@@ -17,7 +17,7 @@ class AuthService implements IAuthService {
   );
 
   @override
-  Option<User> getSignedInUser() {
+  Either<AuthException, User> getSignedInUser() {
     return _authRepository.getSignedInUser();
   }
 
@@ -40,7 +40,7 @@ class AuthService implements IAuthService {
   }
 
   @override
-  Future<void> signOut() {
+  Future<Either<AuthException, void>> signOut() {
     return _authRepository.signOut();
   }
 }

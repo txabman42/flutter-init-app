@@ -6,7 +6,7 @@ import 'package:trickster/core/model/valueobjects/password.dart';
 import 'package:trickster/domain/entity/user.dart';
 
 abstract class IAuthRepository {
-  Option<User> getSignedInUser();
+  Either<AuthException, User> getSignedInUser();
 
   Future<Either<AuthException, User>> registerWithEmailAndPassword(
       {@required EmailAddress emailAddress, @required Password password});
@@ -16,5 +16,5 @@ abstract class IAuthRepository {
 
   Future<Either<AuthException, User>> signInWithGoogle();
 
-  Future<void> signOut();
+  Future<Either<AuthException, void>> signOut();
 }

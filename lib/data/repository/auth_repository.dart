@@ -19,9 +19,10 @@ class AuthRepository implements IAuthRepository {
   );
 
   @override
-  Option<User> getSignedInUser() {
-    return optionOf(
-        UserMapper().fromDto(_firebaseAuthDatasource.getSignedInUser()));
+  Either<AuthException, User> getSignedInUser() {
+    return _firebaseAuthDatasource
+        .getSignedInUser()
+        .fold((l) => left(l), (r) => right(UserMapper().fromDto(r)));
   }
 
   @override
@@ -57,7 +58,7 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<void> signOut() {
+  Future<Either<AuthException, void>> signOut() {
     return _firebaseAuthDatasource.signOut();
   }
 }

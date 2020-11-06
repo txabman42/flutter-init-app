@@ -20,6 +20,7 @@ import 'package:trickster/data/repository/auth_repository.dart';
 import 'package:trickster/domain/repository/i_auth_repository.dart';
 import 'package:trickster/domain/service/auth_service.dart';
 import 'package:trickster/presentation/service/i_auth_service.dart';
+import 'package:trickster/presentation/stores/auth_store.dart';
 import 'package:get_it/get_it.dart';
 
 void $initGetIt(GetIt g, {String environment}) {
@@ -38,4 +39,5 @@ void $initGetIt(GetIt g, {String environment}) {
       () => AuthRepository(g<IFirebaseAuthDatasource>()));
   g.registerLazySingleton<IAuthService>(
       () => AuthService(g<IAuthRepository>()));
+  g.registerFactory<AuthStore>(() => AuthStore(g<IAuthService>()));
 }

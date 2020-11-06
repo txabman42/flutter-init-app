@@ -6,7 +6,7 @@ import 'package:trickster/core/error/shared_preferences_exception.dart';
 import 'package:trickster/data/datasource/shared_preferences_datasource.dart';
 import 'package:trickster/data/model/user_preferences_dto.dart';
 import 'package:trickster/data/util/user_preferences_mapper.dart';
-import 'package:trickster/domain/constants/preferences.dart';
+import 'package:trickster/domain/constant/preferences.dart';
 import 'package:trickster/domain/entity/user_preferences.dart';
 import 'package:trickster/domain/repository/i_shared_preferences_repository.dart';
 

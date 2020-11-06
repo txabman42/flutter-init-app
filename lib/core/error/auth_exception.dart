@@ -8,6 +8,7 @@ abstract class AuthException with _$AuthException {
   const factory AuthException.cancelledByUser() = CancelledByUser;
   const factory AuthException.serverError() = ServerError;
   const factory AuthException.emailAlreadyInUse() = EmailAlreadyInUse;
+  const factory AuthException.userNotFound() = UserNotFound;
   const factory AuthException.invalidEmailAndPasswordCombination() =
       InvalidEmailAndPasswordCombination;
 }

@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 import 'package:trickster/domain/entity/user_preferences.dart';
 
 part 'user_preferences_dto.freezed.dart';
-
 part 'user_preferences_dto.g.dart';
 
 @freezed

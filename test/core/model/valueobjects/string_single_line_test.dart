@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:trickster/core/model/valueobjects/string_single_line.dart';
 import 'package:trickster/core/model/valueobjects/value_object.dart';

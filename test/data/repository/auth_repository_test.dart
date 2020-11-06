@@ -46,10 +46,19 @@ void main() {
   });
 
   group('getSignedInUser', () {
-    test('should return user', () async {
-      when(mockFirebaseAuthDatasource.getSignedInUser()).thenReturn(tUserDto);
+    test('should return user when user not null', () async {
+      when(mockFirebaseAuthDatasource.getSignedInUser())
+          .thenReturn(right(tUserDto));
       final result = authRepository.getSignedInUser();
-      expect(result, optionOf(tUser));
+      expect(result, right(tUser));
+      verify(mockFirebaseAuthDatasource.getSignedInUser());
+    });
+
+    test('should return userNotFound exception when user not null', () async {
+      when(mockFirebaseAuthDatasource.getSignedInUser())
+          .thenReturn(left(const AuthException.userNotFound()));
+      final result = authRepository.getSignedInUser();
+      expect(result, left(const AuthException.userNotFound()));
       verify(mockFirebaseAuthDatasource.getSignedInUser());
     });
   });
