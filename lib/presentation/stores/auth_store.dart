@@ -46,8 +46,9 @@ abstract class _AuthStore with Store {
     state = StoreState.initial;
   }
 
+  // ignore: use_setters_to_change_properties
   @action
-  void setUser(User value) => setUser(value);
+  void setUser(User value) => user = value;
 
   @action
   Future<void> singOut() async {
@@ -66,7 +67,11 @@ abstract class _AuthStore with Store {
     return _authService.getSignedInUser().fold((exception) {
       _mapExceptionToErrorMessage(exception);
       return null;
-    }, (value) => value);
+    }, (value) {
+      setUser(value);
+      state = StoreState.loaded;
+      return value;
+    });
   }
 
   @action

@@ -14,6 +14,7 @@ import 'package:trickster/data/repository/shared_preferences_repository.dart';
 import 'package:trickster/domain/repository/i_shared_preferences_repository.dart';
 import 'package:trickster/domain/service/shared_preferences_service.dart';
 import 'package:trickster/presentation/service/i_shared_preferences_service.dart';
+import 'package:trickster/presentation/stores/shared_preferences_store.dart';
 import 'package:trickster/data/util/user_dto_mapper.dart';
 import 'package:trickster/data/util/user_preferences_mapper.dart';
 import 'package:trickster/data/repository/auth_repository.dart';
@@ -33,6 +34,8 @@ void $initGetIt(GetIt g, {String environment}) {
       () => SharedPreferencesRepository(g<ISharedPreferencesDatasource>()));
   g.registerLazySingleton<ISharedPreferencesService>(
       () => SharedPreferencesService(g<ISharedPreferencesRepository>()));
+  g.registerFactory<SharedPreferencesStore>(
+      () => SharedPreferencesStore(g<ISharedPreferencesService>()));
   g.registerLazySingleton<UserMapper>(() => UserMapper());
   g.registerLazySingleton<UserPreferencesMapper>(() => UserPreferencesMapper());
   g.registerLazySingleton<IAuthRepository>(
